@@ -1,10 +1,10 @@
-import Home from "@/components/Home";
+import MainHeader from "@/components/MainHeader";
 import React from "react";
 
 const page = () => {
   return (
     <div>
-      <Home />
+      <MainHeader />
     </div>
   );
 };
