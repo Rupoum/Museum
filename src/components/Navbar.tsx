@@ -66,7 +66,7 @@ const Navbar: React.FC = () => {
         </div>
         <div className="uppercase gap-5 flex mt-4">
           <Link href={"#"}>Home</Link>
-          <Link href={"/visit"} className="text-gray-400">
+          <Link href={"#"} className="text-gray-400">
             Visit
           </Link>
           <Link href={"#"} className="text-gray-400">
