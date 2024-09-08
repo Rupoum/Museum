@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { gsap, CSSPlugin, Expo } from "gsap";
 import Navbar from "@/components/Navbar";
-// import MainHeader from "./MainHeader";
 
 gsap.registerPlugin(CSSPlugin);
 
@@ -60,7 +59,6 @@ export default function Home() {
   };
 
   return (
-    // <Navbar />
     <AppContainer>
       <Loading>
         <Follow className="follow" />
@@ -69,9 +67,8 @@ export default function Home() {
           id="progress-bar"
           style={{ width: counter + "%" }}
         />
-        {/* Conditionally render the counter only if it's greater than 0 */}
         {counter > 0 && (
-          <Count id="count" className="hide">
+          <Count id="count" className="hide ">
             {counter}%
           </Count>
         )}
@@ -126,15 +123,15 @@ const Count = styled.p`
   font-size: 130px;
   color: #fff;
   transform: translateY(-15px);
-  font-weight: 500;
+  font-weight: 300;
 `;
 
 const Content = styled.div`
   height: 100%;
-  width: 0;
+  width: 100%;
   position: absolute;
   left: 0;
   top: 0;
   z-index: 2;
-  overflow: hidden;
+  overflow: auto;
 `;

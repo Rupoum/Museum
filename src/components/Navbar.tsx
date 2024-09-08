@@ -1,53 +1,58 @@
 "use client";
-import React, { useEffect, useRef } from "react";
-import { Clock2 } from "lucide-react";
+import React from "react";
+import { Clock2, User2 } from "lucide-react";
 import Link from "next/link";
-import { gsap } from "gsap";
+import { motion } from "framer-motion";
+import Main from "./Main";
+import { FlipWords } from "./ui/flip-words";
+import Highlights from "./Highlights";
+import Member from "./Member";
+import Footer from "./Footer";
+import toast, { Toaster } from "react-hot-toast";
 
 const Navbar: React.FC = () => {
-  const navbarRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (navbarRef.current) {
-      // Animate the navbar to slide down from above
-      gsap.fromTo(
-        navbarRef.current,
-        { y: -50, opacity: 0 }, // Starting state
-        { y: 0, opacity: 1, duration: 1, ease: "power2.out" } // Ending state
-      );
-    }
-  }, []);
-
-  useEffect(() => {
-    if (imageRef.current) {
-      // GSAP animation to grow the image from the center
-      gsap.fromTo(
-        imageRef.current,
-        { scale: 0 }, // Start scale
-        {
-          display: "block",
-          scale: 1,
-          duration: 2,
-          ease: "expo.out",
-          onComplete: () => {
-            // Show text when image animation completes
-            gsap.to(textRef.current, {
-              opacity: 1,
-              duration: 1,
-              ease: "power2.out",
-            });
-          },
-        }
-      );
-    }
-  }, []);
-
+  const words = ["Culture", "Pride", "Heritage", "Tradition", "Diversity"];
+  const notify = () =>
+    toast.custom((t) => (
+      <div
+        className={`${
+          t.visible ? "animate-enter" : "animate-leave"
+        } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+      >
+        <div className="flex-1 w-0 p-4">
+          <div className="flex items-start">
+            <div className="flex-shrink-0 pt-0.5">
+              <User2 />
+            </div>
+            <div className="ml-3 flex-1">
+              <p className="text-sm font-medium text-gray-900">Developer</p>
+              <p className="mt-1 text-sm text-gray-500">
+                Hello! Feature coming soon
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="flex border-l border-gray-200">
+          <button
+            onClick={() => toast.dismiss(t.id)}
+            className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-black hover:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    ));
   return (
     <div>
-      <div className="px-20 py-5 h-32" ref={navbarRef}>
-        <div className="flex justify-between items-center">
+      <Toaster position="bottom-right" reverseOrder={false} />
+      {/* Navbar Section */}
+      <motion.div className="px-20 py-5 h-32">
+        <motion.div
+          initial={{ y: -50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 3, ease: "easeOut" }}
+          className="flex justify-between items-center"
+        >
           <div className="text-3xl font-[400] tracking-wide">
             NATIONAL <span>MUSEUM</span>
             <div className="w-12 h-1 bg-black" />
@@ -59,12 +64,20 @@ const Navbar: React.FC = () => {
             <p className="text-sm font-semibold">
               Open Every day 10:00 to 19:00
             </p>
-            <button className="rounded-xl border-2 border-dashed border-black bg-white px-6 py-1 font-semibold uppercase text-black transition-all duration-300 hover:translate-x-[-4px] hover:translate-y-[-4px] hover:rounded-md hover:shadow-[4px_4px_0px_black] active:translate-x-[0px] active:translate-y-[0px] active:rounded-2xl active:shadow-none">
+            <button
+              onClick={notify}
+              className="rounded-xl border-2 border-dashed border-black bg-white px-6 py-1 font-semibold uppercase text-black transition-all duration-300 hover:translate-x-[-4px] hover:translate-y-[-4px] hover:rounded-md hover:shadow-[4px_4px_0px_black] active:translate-x-[0px] active:translate-y-[0px] active:rounded-2xl active:shadow-none"
+            >
               Donate
             </button>
           </div>
-        </div>
-        <div className="uppercase gap-5 flex mt-4">
+        </motion.div>
+        <motion.div
+          initial={{ y: -50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 3, ease: "easeOut" }}
+          className="uppercase gap-5 flex mt-4"
+        >
           <Link href={"#"}>Home</Link>
           <Link href={"#"} className="text-gray-400">
             Visit
@@ -75,28 +88,51 @@ const Navbar: React.FC = () => {
           <Link href={"#"} className="text-gray-400">
             Join & Support
           </Link>
-        </div>
-      </div>
-      <div
-        ref={imageRef}
-        className="relative w-full hidden h-[600px] bg-cover bg-center"
+          <Link href={"#"} className="text-gray-400">
+            Book Tickets
+          </Link>
+        </motion.div>
+      </motion.div>
+
+      {/* Image and Text Section */}
+      <motion.div
+        className="relative w-full h-[600px] bg-cover bg-center"
         style={{
-          backgroundImage: `url("https://images.unsplash.com/photo-1491156855053-9cdff72c7f85?auto=format&fit=crop&q=80&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTV8fGluZGlhbiUyMG11c2V1bXxlbnwwfHwwfHx8MA%3D%3D")`,
+          backgroundImage: `url("/assets/museum3.jpg")`, // Adjust path accordingly
+          transformOrigin: "center", // Ensure the scaling happens from the center
         }}
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 2, ease: "easeOut" }}
       >
         {/* Dark overlay */}
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
         {/* Text content */}
-        <div
-          ref={textRef}
-          className="absolute inset-0 flex items-center justify-center opacity-0"
+        <motion.div
+          className="absolute inset-0 flex flex-col items-center gap-1 justify-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 2.5 }}
+          transition={{ delay: 2, duration: 1 }}
         >
           <h1 className="text-white text-4xl font-bold">
-            Welcome to the National Museum
-          </h1>
-        </div>
+            Welcome to the National Museum{" "}
+          </h1>{" "}
+          <br />
+          <span className="text-white text-3xl">
+            An expedition of our{" "}
+            <FlipWords className="text-white" words={words} />
+          </span>
+        </motion.div>
+      </motion.div>
+
+      {/* Main Content */}
+      <Main />
+      <div className="mt-9 bg-black py-28">
+        <Highlights />
       </div>
+      <Member />
+      <Footer />
     </div>
   );
 };
