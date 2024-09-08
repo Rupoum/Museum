@@ -3,6 +3,35 @@
 @tailwind utilities;
 
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+df-messenger {
+  --df-messenger-bot-message: #e0f7fa;
+  --df-messenger-button-titlebar-color: #0288d1;
+  --df-messenger-chat-background-color: #ffffff;
+  --df-messenger-font-color: #333333;
+  --df-messenger-user-message: #0288d1;
+}
+
+.df-messenger {
+  position: fixed;
+  bottom: 2%;
+  right: 2%;
+}
+
+df-messenger {
+  --df-messenger-button-height: 40px;
+  --df-messenger-button-width: 40px;
+}
+
+/* Custom chatbox size */
+df-messenger::part(chatbox) {
+  max-width: 300px;
+  max-height: 400px;
+}
+
+df-messenger::part(chatbox) {
+  bottom: 50px;
+  right: 50px;
+}
 
 .custom-title {
   /* Apply Tailwind's text size */

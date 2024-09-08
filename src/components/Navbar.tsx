@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react"; // Import useState hook
 import { Clock2, User2 } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -9,9 +9,18 @@ import Highlights from "./Highlights";
 import Member from "./Member";
 import Footer from "./Footer";
 import toast, { Toaster } from "react-hot-toast";
+import DialogflowWidget from "./bot";
 
 const Navbar: React.FC = () => {
   const words = ["Culture", "Pride", "Heritage", "Tradition", "Diversity"];
+
+  const [language, setLanguage] = useState<string>("en"); // Add state for language
+  const [key, setKey] = useState(0);
+  const handleLanguageChange = (selectedLanguage: string) => {
+    setLanguage(selectedLanguage);
+    setKey((prevKey) => prevKey + 1); // Force re-render by changing the key
+  };
+
   const notify = () =>
     toast.custom((t) => (
       <div
@@ -42,6 +51,7 @@ const Navbar: React.FC = () => {
         </div>
       </div>
     ));
+
   return (
     <div>
       <Toaster position="bottom-right" reverseOrder={false} />
@@ -69,6 +79,20 @@ const Navbar: React.FC = () => {
               className="rounded-xl border-2 border-dashed border-black bg-white px-6 py-1 font-semibold uppercase text-black transition-all duration-300 hover:translate-x-[-4px] hover:translate-y-[-4px] hover:rounded-md hover:shadow-[4px_4px_0px_black] active:translate-x-[0px] active:translate-y-[0px] active:rounded-2xl active:shadow-none"
             >
               Donate
+            </button>
+
+            {/* Language Buttons */}
+            <button
+              onClick={() => handleLanguageChange("en")}
+              className="font-bold hover:text-gray-700 "
+            >
+              En
+            </button>
+            <button
+              onClick={() => handleLanguageChange("hi")}
+              className="font-bold hover:text-gray-700"
+            >
+              Hi
             </button>
           </div>
         </motion.div>
@@ -98,8 +122,8 @@ const Navbar: React.FC = () => {
       <motion.div
         className="relative w-full h-[600px] bg-cover bg-center"
         style={{
-          backgroundImage: `url("/assets/museum3.jpg")`, // Adjust path accordingly
-          transformOrigin: "center", // Ensure the scaling happens from the center
+          backgroundImage: `url("/assets/museum3.jpg")`,
+          transformOrigin: "center",
         }}
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
@@ -128,6 +152,10 @@ const Navbar: React.FC = () => {
 
       {/* Main Content */}
       <Main />
+
+      {/* Pass selected language to DialogflowWidget */}
+      <DialogflowWidget language={language} key={key} />
+
       <div className="mt-9 bg-black py-28">
         <Highlights />
       </div>
